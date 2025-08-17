@@ -13,8 +13,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { BadgeCheck, ThumbsDown, ThumbsUp } from "lucide-react";
+import { BadgeCheck, Percent } from "lucide-react";
 import { Pie, PieChart, Cell } from "recharts";
+import { Separator } from "./ui/separator";
 
 interface AnalysisResultsProps {
   results: AnalysisResult;
@@ -32,7 +33,7 @@ const chartConfig = {
 };
 
 export function AnalysisResults({ results }: AnalysisResultsProps) {
-  const { grade, bestQualityPercentage, worstQualityPercentage } = results;
+  const { grade, bestQualityPercentage, worstQualityPercentage, gradingReason, damagedPercentage } = results;
 
   const chartData = [
     { name: "best", value: bestQualityPercentage, fill: chartConfig.best.color },
@@ -99,6 +100,21 @@ export function AnalysisResults({ results }: AnalysisResultsProps) {
                 <span className="font-semibold">{worstQualityPercentage}%</span>
               </p>
             </div>
+          </div>
+        </div>
+        <div className="sm:col-span-2 space-y-4">
+          <Separator />
+          <div>
+            <h3 className="font-semibold text-lg mb-2">Grading Reason</h3>
+            <p className="text-sm text-muted-foreground">{gradingReason}</p>
+          </div>
+          <Separator />
+          <div className="flex items-center justify-between rounded-lg bg-card p-4">
+            <div className="flex items-center gap-2">
+              <Percent className="h-6 w-6 text-destructive" />
+              <h3 className="font-semibold text-lg">Damaged Nuts</h3>
+            </div>
+            <p className="text-4xl font-bold text-destructive">{damagedPercentage}%</p>
           </div>
         </div>
       </CardContent>

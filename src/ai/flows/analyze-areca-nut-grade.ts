@@ -21,12 +21,18 @@ export type AnalyzeArecaNutGradeInput = z.infer<typeof AnalyzeArecaNutGradeInput
 
 const AnalyzeArecaNutGradeOutputSchema = z.object({
   grade: z.string().describe('The grade of the areca nuts (e.g., A, B, C).'),
+  gradingReason: z
+    .string()
+    .describe('The reasoning for assigning the grade, based on visual characteristics.'),
   bestQualityPercentage: z
     .number()
     .describe('The estimated percentage of best quality areca nuts in the sample.'),
   worstQualityPercentage: z
     .number()
     .describe('The estimated percentage of worst quality areca nuts in the sample.'),
+  damagedPercentage: z
+    .number()
+    .describe('The estimated percentage of visibly damaged areca nuts in the sample.'),
 });
 export type AnalyzeArecaNutGradeOutput = z.infer<typeof AnalyzeArecaNutGradeOutputSchema>;
 
@@ -42,9 +48,9 @@ const prompt = ai.definePrompt({
   output: {schema: AnalyzeArecaNutGradeOutputSchema},
   prompt: `You are an expert in areca nut grading.
 
-You will analyze the provided image of areca nuts and determine their grade based on visual characteristics such as size, color, and apparent defects.
+You will analyze the provided image of areca nuts and determine their grade based on visual characteristics such as size, color, and apparent defects. Provide a reason for the grade you assign.
 
-You will also estimate the percentage of the sample that is of the best quality and the percentage that is of the worst quality.
+You will also estimate the percentage of the sample that is of the best quality, the percentage that is of the worst quality, and the percentage that appears to be damaged.
 
 Analyze the following image:
 {{media url=photoDataUri}}`,
